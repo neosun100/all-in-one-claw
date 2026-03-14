@@ -3,7 +3,7 @@
 ## Overview
 
 - **Test runner**: `bash tests/run_tests.sh`
-- **Total test cases**: 337
+- **Total test cases**: 363
 - **Test categories**: 40
 - **Last verified**: 2026-03-12
 
@@ -604,8 +604,46 @@ VALID
   ✓ backup-restore.sh: syntax OK
   ✓ configure-keys.sh: syntax OK
 
+[67. configure-keys.sh — Full Platform Coverage]
+  ✓ Keys wizard: Discord
+  ✓ Keys wizard: Telegram
+  ✓ Keys wizard: Slack
+  ✓ Keys wizard: Lark
+  ✓ Keys wizard: WeCom
+  ✓ Keys wizard: WeCom Webhook
+  ✓ Keys wizard: channel config fn
+  ✓ Keys wizard: plist write support
+
+[68. setup.sh — configure-keys Prompt]
+  ✓ setup.sh: mentions configure-keys
+
+[69. Security — AWS Credential Permissions]
+  ✓ macOS: chmod 600 credentials
+  ✓ macOS: chmod 600 config
+  ✓ Linux: chmod 600 credentials
+
+[70. docker-compose.yml — MCP Keys]
+  ✓ Docker: GitHub token
+  ✓ Docker: Brave key
+  ✓ Docker: Tavily key
+  ✓ Docker: brand updated
+
+[71. Brand Consistency — No Old References]
+  ✓ No old repo references
+  ✓ No standalone OneClaw brand
+
+[72. Final Syntax + ShellCheck]
+  ✓ setup.sh: syntax OK
+  ✓ install-linux.sh: syntax OK
+  ✓ fix.sh: syntax OK
+  ✓ backup-restore.sh: syntax OK
+  ✓ configure-keys.sh: syntax OK
+  ✓ setup.sh: shellcheck clean
+  ✓ install-linux.sh: shellcheck clean
+  ✓ fix.sh: shellcheck clean
+
 ═══════════════════════════════════════
-  Passed: 337  Failed: 0  Skipped: 0
+  Passed: 363  Failed: 0  Skipped: 0
 ═══════════════════════════════════════
 
 ALL TESTS PASSED

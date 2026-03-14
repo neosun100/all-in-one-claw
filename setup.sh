@@ -496,6 +496,10 @@ if [ "$AWS_PROFILE_NAME" != "default" ]; then
     export AWS_PROFILE="$AWS_PROFILE_NAME"
 fi
 
+# Secure credential files
+chmod 600 "$HOME/.aws/credentials" 2>/dev/null || true
+chmod 600 "$HOME/.aws/config" 2>/dev/null || true
+
 # --- Configure Claude Code for Bedrock ---
 info "Configuring Claude Code for Bedrock..."
 
@@ -2032,3 +2036,8 @@ echo -e "  ${GREEN}~/Documents/All in One Claw/ai-repair.command${NC}    — AI 
 echo -e "  ${GREEN}~/Documents/All in One Claw/repair.command${NC}      — 一键重启所有服务"
 echo ""
 echo -e "${GREEN}${BOLD}享受你的 AI 编程环境吧！${NC}"
+echo ""
+echo -e "${YELLOW}${BOLD}💡 可选：配置更多 API Keys 以启用全部 MCP 和消息平台${NC}"
+echo -e "  运行: ${CYAN}bash configure-keys.sh${NC}"
+echo -e "  可配置: GitHub Token、Brave Search、Tavily、Discord、Telegram、Slack、飞书、企业微信"
+echo ""

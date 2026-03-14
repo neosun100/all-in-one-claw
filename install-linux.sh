@@ -232,6 +232,9 @@ else
 fi
 echo -en "${YELLOW}企业微信 Webhook URL: ${NC}"; read -r WECOM_WEBHOOK_URL; WECOM_WEBHOOK_URL="${WECOM_WEBHOOK_URL:-}"
 
+chmod 600 "$HOME/.aws/credentials" 2>/dev/null || true
+chmod 600 "$HOME/.aws/config" 2>/dev/null || true
+
 # ============================================================================
 step 4 "Install fnm + Node.js + pnpm + uv + AWS CLI"
 # ============================================================================

@@ -858,6 +858,67 @@ for f in setup.sh install-linux.sh fix.sh backup-restore.sh configure-keys.sh; d
     [ -f "$SCRIPT_DIR/$f" ] || continue
     bash -n "$SCRIPT_DIR/$f" 2>/dev/null && pass "$f: syntax OK" || fail "$f: BROKEN"
 done
+
+# ============================================================================
+section "67. configure-keys.sh — Full Platform Coverage"
+# ============================================================================
+
+grep -q 'DISCORD_BOT_TOKEN' "$SCRIPT_DIR/configure-keys.sh" && pass "Keys wizard: Discord" || fail "Keys wizard: Discord missing"
+grep -q 'TELEGRAM_BOT_TOKEN' "$SCRIPT_DIR/configure-keys.sh" && pass "Keys wizard: Telegram" || fail "Keys wizard: Telegram missing"
+grep -q 'SLACK_BOT_TOKEN' "$SCRIPT_DIR/configure-keys.sh" && pass "Keys wizard: Slack" || fail "Keys wizard: Slack missing"
+grep -q 'LARK_APP_ID' "$SCRIPT_DIR/configure-keys.sh" && pass "Keys wizard: Lark" || fail "Keys wizard: Lark missing"
+grep -q 'WECOM_CORP_ID' "$SCRIPT_DIR/configure-keys.sh" && pass "Keys wizard: WeCom" || fail "Keys wizard: WeCom missing"
+grep -q 'WECOM_WEBHOOK_URL' "$SCRIPT_DIR/configure-keys.sh" && pass "Keys wizard: WeCom Webhook" || fail "Keys wizard: WeCom Webhook missing"
+grep -q 'configure_channel' "$SCRIPT_DIR/configure-keys.sh" && pass "Keys wizard: channel config fn" || fail "Keys wizard: no channel fn"
+grep -q 'plistlib' "$SCRIPT_DIR/configure-keys.sh" && pass "Keys wizard: plist write support" || fail "Keys wizard: no plist write"
+
+# ============================================================================
+section "68. setup.sh — configure-keys Prompt"
+# ============================================================================
+
+grep -q 'configure-keys.sh' "$SCRIPT_DIR/setup.sh" && pass "setup.sh: mentions configure-keys" || fail "setup.sh: no configure-keys prompt"
+
+# ============================================================================
+section "69. Security — AWS Credential Permissions"
+# ============================================================================
+
+grep -q 'chmod 600.*\.aws/credentials' "$SCRIPT_DIR/setup.sh" && pass "macOS: chmod 600 credentials" || fail "macOS: no chmod"
+grep -q 'chmod 600.*\.aws/config' "$SCRIPT_DIR/setup.sh" && pass "macOS: chmod 600 config" || fail "macOS: no chmod config"
+grep -q 'chmod 600.*\.aws/credentials' "$SCRIPT_DIR/install-linux.sh" && pass "Linux: chmod 600 credentials" || fail "Linux: no chmod"
+
+# ============================================================================
+section "70. docker-compose.yml — MCP Keys"
+# ============================================================================
+
+grep -q 'GITHUB_PERSONAL_ACCESS_TOKEN' "$SCRIPT_DIR/docker-compose.yml" && pass "Docker: GitHub token" || fail "Docker: GitHub missing"
+grep -q 'BRAVE_API_KEY' "$SCRIPT_DIR/docker-compose.yml" && pass "Docker: Brave key" || fail "Docker: Brave missing"
+grep -q 'TAVILY_API_KEY' "$SCRIPT_DIR/docker-compose.yml" && pass "Docker: Tavily key" || fail "Docker: Tavily missing"
+grep -q 'all-in-one-claw' "$SCRIPT_DIR/docker-compose.yml" && pass "Docker: brand updated" || fail "Docker: old brand"
+
+# ============================================================================
+section "71. Brand Consistency — No Old References"
+# ============================================================================
+
+OLD_REFS=$(grep -rl 'cncoder/oneclaw' "$SCRIPT_DIR"/*.sh "$SCRIPT_DIR"/*.md "$SCRIPT_DIR"/*.yml 2>/dev/null | wc -l || true)
+[ "${OLD_REFS:-0}" -eq 0 ] && pass "No old repo references" || fail "Found $OLD_REFS files with old refs"
+
+OLD_BRAND=$(grep -rn 'OneClaw' "$SCRIPT_DIR"/*.sh "$SCRIPT_DIR"/*.md 2>/dev/null | grep -v 'All in One Claw' | wc -l || true)
+[ "${OLD_BRAND:-0}" -eq 0 ] && pass "No standalone OneClaw brand" || fail "Found $OLD_BRAND old brand refs"
+
+# ============================================================================
+section "72. Final Syntax + ShellCheck"
+# ============================================================================
+
+for f in setup.sh install-linux.sh fix.sh backup-restore.sh configure-keys.sh; do
+    [ -f "$SCRIPT_DIR/$f" ] || continue
+    bash -n "$SCRIPT_DIR/$f" 2>/dev/null && pass "$f: syntax OK" || fail "$f: BROKEN"
+done
+if command -v shellcheck >/dev/null 2>&1; then
+    for f in setup.sh install-linux.sh fix.sh; do
+        SC=$(shellcheck -S warning -e SC2034,SC1091,SC2086,SC2129,SC2016,SC2046,SC2015,SC2181 "$SCRIPT_DIR/$f" 2>&1 | grep -c "^In " || true)
+        [ "$SC" -eq 0 ] && pass "$f: shellcheck clean" || fail "$f: $SC warnings"
+    done
+fi
 # Summary
 # ============================================================================
 echo ""

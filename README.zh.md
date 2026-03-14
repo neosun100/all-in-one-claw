@@ -330,11 +330,11 @@ npm uninstall -g @anthropic-ai/claude-code 2>/dev/null
 ## 测试
 
 ```bash
-# 运行完整测试套件（337 个测试用例）
+# 运行完整测试套件（363 个测试用例）
 bash tests/run_tests.sh
 ```
 
-66 个测试类别，覆盖单元测试、功能测试、E2E 测试、集成测试和回归测试。详见 [tests/TESTING.md](tests/TESTING.md)。
+72 个测试类别，覆盖单元测试、功能测试、E2E 测试、集成测试和回归测试。详见 [tests/TESTING.md](tests/TESTING.md)。
 
 ## 许可证
 
