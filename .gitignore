@@ -1,2 +1,31 @@
+# Python
 __pycache__/
-__pycache__/
+*.pyc
+
+# Credentials & secrets — NEVER commit these
+.aws/
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials
+**/secrets/
+**/tokens/
+
+# OpenClaw runtime
+.openclaw/
+.claude/
+.mcp.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups (may contain credentials)
+*.tar.gz
+*.gpg
+
+# Node
+node_modules/

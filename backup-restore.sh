@@ -58,6 +58,23 @@ do_backup() {
 
     tar -czf "$backup_file" "${sources[@]}" 2>/dev/null
 
+    # Offer GPG encryption (backup contains credentials)
+    if command -v gpg >/dev/null 2>&1; then
+        echo ""
+        echo -e "  ${YELLOW}⚠ 备份包含 AWS 凭证等敏感信息${NC}"
+        echo -en "  ${YELLOW}是否加密备份？[Y/n]: ${NC}"
+        read -r encrypt_choice
+        if [[ ! "${encrypt_choice:-Y}" =~ ^[Nn] ]]; then
+            gpg --symmetric --cipher-algo AES256 "$backup_file" 2>/dev/null && {
+                rm -f "$backup_file"
+                backup_file="${backup_file}.gpg"
+                success "Backup encrypted (AES-256)"
+            } || warn "Encryption failed, keeping unencrypted"
+        fi
+    else
+        warn "GPG not installed — backup is unencrypted (contains credentials)"
+    fi
+
     local size
     size=$(du -h "$backup_file" | cut -f1)
     success "Backup created: $backup_file ($size)"

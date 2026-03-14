@@ -108,6 +108,14 @@ AWS IAM 用户需要以下权限才能正常使用：
 - **Guardian 守护进程** — 每 60 秒健康检查 + 自动修复
 - **LaunchAgent** — 开机自启动
 
+## 安装后：配置 API Keys
+
+```bash
+bash configure-keys.sh
+```
+
+可配置：GitHub Token、Brave Search、Tavily、Discord、Telegram、Slack、飞书、企业微信。全部可选，未配置的 MCP 不会启用。
+
 ## 安装后可用命令
 
 ```bash
@@ -330,11 +338,11 @@ npm uninstall -g @anthropic-ai/claude-code 2>/dev/null
 ## 测试
 
 ```bash
-# 运行完整测试套件（363 个测试用例）
+# 运行完整测试套件（156 个测试用例）
 bash tests/run_tests.sh
 ```
 
-72 个测试类别，覆盖单元测试、功能测试、E2E 测试、集成测试和回归测试。详见 [tests/TESTING.md](tests/TESTING.md)。
+19 个测试类别，覆盖单元测试、功能测试、E2E 测试、集成测试和回归测试。详见 [tests/TESTING.md](tests/TESTING.md)。
 
 ## 许可证
 
